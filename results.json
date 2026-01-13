@@ -31,7 +31,7 @@
             0.18903551121124343,
             0.0482780817508851
         ],
-        "relative_yearly_precipitation": 0
+        "relative_yearly_precipitation": 0.2968660424230843
     },
     "Seattle": {
         "station": "GHCND:US1WAKG0038",
@@ -65,7 +65,7 @@
             0.10661896243291592,
             0.2107334525939177
         ],
-        "relative_yearly_precipitation": 0
+        "relative_yearly_precipitation": 0.3560736352633926
     },
     "Maui": {
         "station": "GHCND:USC00513317",
@@ -99,7 +99,7 @@
             0.16504096761607492,
             0.16250487709715178
         ],
-        "relative_yearly_precipitation": 0
+        "relative_yearly_precipitation": 0.16325880629339448
     },
     "San Diego": {
         "station": "GHCND:US1CASD0032",
@@ -133,6 +133,6 @@
             0.06827239646508404,
             0.32975220932247445
         ],
-        "relative_yearly_precipitation": 0
+        "relative_yearly_precipitation": 0.18380151602012867
     }
 }

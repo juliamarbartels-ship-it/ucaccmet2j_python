@@ -18,8 +18,11 @@ for line in stations:      # for each line, add information into dictionary so k
     city, state, station = line.split(",")
     stations_dict[city] = {"state": state, "station": station.strip()}
 
+
 # 2. loop over all cities to analyze each
 for city in stations_dict:
+
+    total_precipitation = 0  # for step 2.6: initialize total precipitation across all cities 
 
     # 2.1 access station and state of current city
     city_dict = stations_dict[city]
@@ -31,6 +34,9 @@ for city in stations_dict:
     for observation in precipitation_data:
         if observation["station"] == station:
             city_precipitation.append(observation)
+        
+        # for step 2.6: calculate total precipitation across all cities
+        total_precipitation += observation["value"]
 
     # 2.3 calculate total monthly precipitation 
     # make dictionary with key = month, value = total precipitation
@@ -61,14 +67,17 @@ for city in stations_dict:
     # convert the dictionary to a list
     relative_monthly_precipitation_list = list(relative_monthly_precipitation.values())
 
-    # 2.6 add results to existing dictionary
+    # 2.6 calculate relative yearly precipitation
+    relative_yearly_precipitation = total_yearly_precipitation/total_precipitation
+
+    # 2.7 add results to existing dictionary
     stations_dict[city] = {
     "station": station,
     "state": state,
     "total_monthly_precipitation": total_monthly_precipitation_list,
     "total_yearly_precipitation": total_yearly_precipitation,
     "relative_monthly_precipitation": relative_monthly_precipitation_list,
-    "relative_yearly_precipitation": 0
+    "relative_yearly_precipitation": relative_yearly_precipitation
     }
 
 # 3. write results to json file
