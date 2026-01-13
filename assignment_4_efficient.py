@@ -1,4 +1,5 @@
 
+# This was my attempt at making the code more efficient, but I did not get far.
 # This script analyzes rain over time in 4 cities. The output is a json file including the station, state, 
 # total and relative monthly precipitation, and total and monthly yearly precipitation per city
 
@@ -17,7 +18,7 @@ stations_dict = {}
 for line in stations:      # for each line, add information into dictionary so key = city, value = dictionary (with keys for station and state)
     city, state, station = line.split(",")
     stations_dict[city] = {"state": state, "station": station.strip()}
-    
+
 
 total_precipitation = 0  # for step 2.6: initialize total precipitation across all cities 
 
