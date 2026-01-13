@@ -3,7 +3,6 @@
         "station": "GHCND:USW00093814",
         "state": "OH",
         "total_monthly_precipitation": [
-            512,
             588,
             889,
             491,

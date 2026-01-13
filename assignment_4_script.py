@@ -1,6 +1,6 @@
 
-# This script analyzes rain over time in Seattle. The output is a json file including the station, state, 
-# total and relative monthly precipitation, and total and monthly yearly precipitation per State
+# This script analyzes rain over time in 4 cities. The output is a json file including the station, state, 
+# total and relative monthly precipitation, and total and monthly yearly precipitation per city
 
 # import packages
 import json
