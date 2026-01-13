@@ -10,26 +10,43 @@
 import json
 
 # load in files
-with open("stations.csv", encoding= "utf-8") as file:  
-    stations = file.read()
+# with open("stations.csv", encoding= "utf-8") as file:  
+#     stations = file.read()
 with open('precipitation.json', encoding='utf-8') as file:
     precipitation_data = json.load(file)
 
 # 0. loop over each station
-# 0.1 make list of all stations
-stations = ["GHCND:USW00093814", "GHCND:US1WAKG0038", "GHCND:USC00513317", "GHCND:US1CASD0032"]
-
+# 0.1 make dictionary of all stations (key: city, value: station name)
+stations_dict = {
+    "Cincinnati": {
+        "state": "OH",
+        "station": "GHCND:USW00093814"}, 
+    "Seattle": {
+        "state": "WA",
+        "station": "GHCND:US1WAKG0038"}, 
+    "Maui": {
+        "state": "HI",
+        "station": "GHCND:USC00513317"},
+    "San Diego": {
+        "state": "CA",
+        "station": "GHCND:US1CASD0032"}
+}
+print(stations_dict["Cincinnati"])
 # initialize dictionary for json output file
 precipitation_summary = {}
 
-# 0.2 loop over all stations
-for station in stations:
+# 0.2 loop over all cities
+for city in stations_dict:
+    #access station and state of each city
+    city_dict = stations_dict[city]
+    station = city_dict["station"]
+    state = city_dict["state"]
 
     # select measurements for Seattle
     station_precipitation = []
-    for day in precipitation_data:
-        if day["station"] == station:
-            station_precipitation.append(day)
+    for observation in precipitation_data:
+        if observation["station"] == station:
+            station_precipitation.append(observation)
 
     # calculate list of total precipitation per month (plan: iterate over each item, check if it's
     #  in a given month, if yes add, if no add to new month)
@@ -74,12 +91,16 @@ for station in stations:
     # convert the dictionary to a list
     relative_monthly_precipitation_list = list(relative_monthly_precipitation.values())
 
+    # add this to existing dictionary
+
+
+    
     # convert into needed format and write into json file
-    precipitation_summary[station] = {
-    "station": "GHCND:US1WAKG0038",
-    "state": "WA",
+    precipitation_summary[city] = {
+    "station": station,
+    "state": state,
     "total_monthly_precipitation": total_monthly_precipitation_list,
-    "total_yearly_precipitation": 0,
+    "total_yearly_precipitation": total_yearly_precipitation,
     "relative_monthly_precipitation": relative_monthly_precipitation_list,
     "relative_yearly_precipitation": 0
     }
