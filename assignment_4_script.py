@@ -23,18 +23,50 @@ for day in precipitation_data:
 
 # calculate list of total precipitation per month (plan: iterate over each item, check if it's
 #  in a given month, if yes add, if no add to new month)
-total_monthly_precipitation = []     # initialize list for monthly precipitation
-month = 0                            # initialize month so can iterate over 12 months
-month_precipitation = 0              # initialize variable for total precipitation in a month
-while month < 13:                    # for 12 months
-    month += 1                       
-    for day in seattle_precipitation:
-        date = day["date"]
-        if date.startswith(f"2010-0{month}"):      # if day in current month
-            month_precipitation += day["value"]    # add day's precipitation to total of that month
-    total_monthly_precipitation.append(month_precipitation)   # append to list of all months
-print(total_monthly_precipitation)
+# total_monthly_precipitation = []     # initialize list for monthly precipitation
+# month = 0                            # initialize month so can iterate over 12 months
+# while month < 12:                    # for 12 months
+#     month_precipitation = 0           # initialize variable for total precipitation in a month
+#     month += 1                       
+#     for day in seattle_precipitation:
+#         observation_date = day["date"].split('-')
+#         observation_month = int(observation_date[1])
+#         if observation_month == month:    # if day in current month
+#             month_precipitation += day["value"]    # add day's precipitation to total of that month
+#     total_monthly_precipitation.append(month_precipitation)   # append to list of all months
 
-# write into json file
+# iterate over observations, check month, and make dictionary of monthly precipitation
+total_monthly_precipitation = {}
+for observation in seattle_precipitation:
+    observation_date = observation["date"].split('-')
+    observation_month = int(observation_date[1])
+    if observation_month not in total_monthly_precipitation:
+        month_precipitation = 0
+    month_precipitation += observation["value"]
+    total_monthly_precipitation[observation_month] = month_precipitation
+
+# convert dictionary to a list
+total_monthly_precipitation_list = list(total_monthly_precipitation.values())
+
+# calculate yearly precipitation using monthly precipitation dictionary
+total_yearly_precipitation = 0
+for observation_month in total_monthly_precipitation:
+    month_precipitation = total_monthly_precipitation[observation_month]
+    total_yearly_precipitation += month_precipitation
+
+print(total_yearly_precipitation)
+
+
+# convert into needed format and write into json file
+precipitation_summary = {}
+precipitation_summary["Seattle"] = {
+"station": "GHCND:US1WAKG0038",
+"state": "WA",
+"total_monthly_precipitation": total_monthly_precipitation_list,
+"total_yearly_precipitation": 0,
+"relative_monthly_precipitation": [0] * 12,
+"relative_yearly_precipitation": 0
+}
+
 with open('results.json', 'w', encoding='utf-8') as file:
-    json.dump(total_monthly_precipitation, file, indent=4)
+    json.dump(precipitation_summary, file, indent=4)
