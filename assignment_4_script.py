@@ -35,7 +35,8 @@ for day in precipitation_data:
 #             month_precipitation += day["value"]    # add day's precipitation to total of that month
 #     total_monthly_precipitation.append(month_precipitation)   # append to list of all months
 
-# iterate over observations, check month, and make dictionary of monthly precipitation
+# 1. calculate total monthly precipitation in Seattle
+# iterate over observations, check month, and make dictionary with key = month, value = total precipitation
 total_monthly_precipitation = {}
 for observation in seattle_precipitation:
     observation_date = observation["date"].split('-')
@@ -45,16 +46,23 @@ for observation in seattle_precipitation:
     month_precipitation += observation["value"]
     total_monthly_precipitation[observation_month] = month_precipitation
 
-# convert dictionary to a list
+# convert thisdictionary to a list
 total_monthly_precipitation_list = list(total_monthly_precipitation.values())
 
-# calculate yearly precipitation using monthly precipitation dictionary
+# 2. calculate yearly precipitation using monthly precipitation dictionary
 total_yearly_precipitation = 0
 for observation_month in total_monthly_precipitation:
     month_precipitation = total_monthly_precipitation[observation_month]
     total_yearly_precipitation += month_precipitation
 
-print(total_yearly_precipitation)
+# 3. calculate relative monthly precipitation (proportion of yearly rain per month)
+relative_monthly_precipitation = {}
+for observation_month in total_monthly_precipitation:
+    month_relative_precipitation = total_monthly_precipitation[observation_month]/total_yearly_precipitation
+    relative_monthly_precipitation[observation_month] = month_relative_precipitation
+
+# convert the dictionary to a list
+relative_monthly_precipitation_list = list(relative_monthly_precipitation.values())
 
 
 # convert into needed format and write into json file
@@ -64,7 +72,7 @@ precipitation_summary["Seattle"] = {
 "state": "WA",
 "total_monthly_precipitation": total_monthly_precipitation_list,
 "total_yearly_precipitation": 0,
-"relative_monthly_precipitation": [0] * 12,
+"relative_monthly_precipitation": relative_monthly_precipitation_list,
 "relative_yearly_precipitation": 0
 }
 
